@@ -4,9 +4,63 @@
 
 {%block content%}
 
-<div class="container">
-    <h1>Index Page</h1>
-    <p>This is the index page.</p>
+<div class="container text-center">
+    <h1>Página Principal</h1>
+    <hr>
 </div>
+
+<div class="container">
+    <h4 class="text-center">Acciones</h4>
+    <div class="row d-flex justify-content-between p-5" style="background-color: rgb(221, 221, 221); border-radius: 5px;">
+        <div class="col-sm-5">
+            <div class="container">
+                <h5 class="text-center">Tasas</h5>
+                <div class="container">
+                    {% if tasa %}
+                        <p><b>Tasa Actual</b></p>
+                        <p>Última Actualización: <b>{{tasa.fecha}}</b></p>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Oficial</th>
+                                <th scope="col">Compra</th>
+                                <th scope="col">Venta</th>
+                                <th scope="col">WU</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>{{tasa.tasa_oficial}}</th>
+                                <td>{{tasa.tasa_compra}}</td>
+                                <td>{{tasa.tasa_venta}}</td>
+                                <td>{{tasa.tasa_wu}}</td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        <div class="container text-center">
+                            <a href="{{url_for('main.set_tasa')}}" class="btn btn-dark">Actualizar Tasa</a>
+                        </div>
+                    {%else%}
+                        <p>No se ha fijado la Tasa</p>
+                        <a href="{{url_for('main.set_tasa')}}" class="btn btn-dark">Fijar Tasa</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="container">
+                <h5 class="text-center">Más acciones</h5>
+                <div class="container">
+                    <p>Generar Registros</p>
+                    <a href="#" class="btn btn-dark">Registros</a>
+                    <hr>  
+                    <p>Administrar Contabilidad</p>
+                    <a href="#" class="btn btn-dark">Contabilidad</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {%endblock%}

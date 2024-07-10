@@ -8,7 +8,9 @@ main = Blueprint('main', __name__)
 # Index Page
 @main.route('/')
 def index():
-    return render_template('main/index.html')
+    #valor más actual de la tasa
+    tasa = Tasa.query.order_by(Tasa.id.desc()).first()
+    return render_template('main/index.html',tasa=tasa)
 
 # Fijar Tasa
 @main.route('/tasa/set', methods=['GET', 'POST'])
@@ -23,7 +25,7 @@ def set_tasa():
         )
         db.session.add(new_tasa)
         db.session.commit()
-        return redirect(url_for('main.get_tasa'))
+        return redirect(url_for('main.index'))
     return render_template('main/set_tasa.html', form=form)
 
 # Ver Tasa
