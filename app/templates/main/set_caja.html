@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+
+{%block title%}SET caja{%endblock%}
+
+{%block content%}
+
+<style>
+    .transition { transition: all 0.5s ease; }
+</style>
+
+<div class="container text-center my-5">
+   <h1>Modificar Caja</h1> 
+   <hr>
+</div>
+
+<div class="container mt-5">
+    <form method="POST" action="{{url_for('main.set_caja')}}">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Moneda Local</h4>
+                <div class="form-group">
+                    {{ form.moneda_local_1.label(class="form-label") }}
+                    {{ form.moneda_local_1(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_5.label(class="form-label") }}
+                    {{ form.moneda_local_5(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_10.label(class="form-label") }}
+                    {{ form.moneda_local_10(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_20.label(class="form-label") }}
+                    {{ form.moneda_local_20(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_50.label(class="form-label") }}
+                    {{ form.moneda_local_50(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_100.label(class="form-label") }}
+                    {{ form.moneda_local_100(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_200.label(class="form-label") }}
+                    {{ form.moneda_local_200(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_500.label(class="form-label") }}
+                    {{ form.moneda_local_500(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.moneda_local_1000.label(class="form-label") }}
+                    {{ form.moneda_local_1000(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Dólares</h4>
+                <div class="form-group">
+                    {{ form.dolar_1.label(class="form-label") }}
+                    {{ form.dolar_1(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.dolar_5.label(class="form-label") }}
+                    {{ form.dolar_5(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.dolar_10.label(class="form-label") }}
+                    {{ form.dolar_10(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.dolar_20.label(class="form-label") }}
+                    {{ form.dolar_20(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.dolar_50.label(class="form-label") }}
+                    {{ form.dolar_50(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.dolar_100.label(class="form-label") }}
+                    {{ form.dolar_100(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+
+{%endblock%}

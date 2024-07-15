@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+
+{%block title%}Caja{%endblock%}
+
+{%block content%}
+
+<div class="container text-center mt-5">
+    <h1 class="mb-4">Estado de la Caja</h1>
+    <hr>
+</div>
+
+<div class="container text-center">
+    <a class="btn btn-dark" href="{{url_for('main.set_caja')}}">Modificar Caja</a>
+</div>
+
+<div class="container mt-5">
+    {% if caja %}
+    <div class="container">
+        <div class="container">
+            <h2 class="card-title">Última Entrada - {{ caja.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</h2>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><b>Córdobas</b></h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">1: {{ caja.moneda_local_1 }}</li>
+                        <li class="list-group-item">5: {{ caja.moneda_local_5 }}</li>
+                        <li class="list-group-item">10: {{ caja.moneda_local_10 }}</li>
+                        <li class="list-group-item">20: {{ caja.moneda_local_20 }}</li>
+                        <li class="list-group-item">50: {{ caja.moneda_local_50 }}</li>
+                        <li class="list-group-item">100: {{ caja.moneda_local_100 }}</li>
+                        <li class="list-group-item">200: {{ caja.moneda_local_200 }}</li>
+                        <li class="list-group-item">500: {{ caja.moneda_local_500 }}</li>
+                        <li class="list-group-item">1000: {{ caja.moneda_local_1000 }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="mt-4"><b>Dólares</b></h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">1: {{ caja.dolar_1 }}</li>
+                        <li class="list-group-item">5: {{ caja.dolar_5 }}</li>
+                        <li class="list-group-item">10: {{ caja.dolar_10 }}</li>
+                        <li class="list-group-item">20: {{ caja.dolar_20 }}</li>
+                        <li class="list-group-item">50: {{ caja.dolar_50 }}</li>
+                        <li class="list-group-item">100: {{ caja.dolar_100 }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        No hay entradas en la caja.
+    </div>
+    {% endif %}
+</div>
+
+{%endblock%}

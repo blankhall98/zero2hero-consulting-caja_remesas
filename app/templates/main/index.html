@@ -55,7 +55,10 @@
                     <a href="#" class="btn btn-dark">Registros</a>
                     <hr>  
                     <p>Administrar Contabilidad</p>
-                    <a href="#" class="btn btn-dark">Contabilidad</a> 
+                    <div class="container">
+                        <a href="#" class="btn btn-dark">Contabilidad</a> 
+                        <a href="{{url_for('main.get_caja')}}" class="btn btn-primary">Administrar Caja</a>
+                    </div>
                 </div>
             </div>
         </div>
