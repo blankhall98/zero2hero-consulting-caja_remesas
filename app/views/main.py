@@ -3,6 +3,8 @@ from app.forms.tasa import TasaForm
 from app.models.tasa import Tasa
 from app.forms.caja import CajaForm
 from app.models.caja import Caja
+from app.forms.opwu import OpWuForm
+from app.models.opwu import OpWu
 from app.extensions import db
 
 main = Blueprint('main', __name__)
@@ -69,4 +71,13 @@ def set_caja():
         db.session.commit()
         return redirect(url_for('main.index'))
     return render_template('main/set_caja.html', form=form)
+
+
+# Operaciones Western Union
+@main.route('/operaciones_wu')
+def operaciones_wu():
+    form = OpWuForm()
+    if form.validate_on_submit():
+        pass
+    return render_template('main/operaciones_wu.html', form = form, ultima_tasa = Tasa.query.order_by(Tasa.id.desc()).first())
 

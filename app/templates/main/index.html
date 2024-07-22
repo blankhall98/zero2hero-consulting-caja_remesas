@@ -52,12 +52,19 @@
                 <h5 class="text-center">Más acciones</h5>
                 <div class="container">
                     <p>Generar Registros</p>
-                    <a href="#" class="btn btn-dark">Registros</a>
+                    <div class="container">
+                        <a href="#" class="btn btn-dark">Registros</a>
+                    </div>
                     <hr>  
                     <p>Administrar Contabilidad</p>
                     <div class="container">
                         <a href="#" class="btn btn-dark">Contabilidad</a> 
                         <a href="{{url_for('main.get_caja')}}" class="btn btn-primary">Administrar Caja</a>
+                    </div>
+                    <hr>
+                    <p>Western Union</p>
+                    <div class="container">
+                        <a href="{{url_for('main.operaciones_wu')}}" class="btn btn-warning">Operaciones</a>
                     </div>
                 </div>
             </div>
