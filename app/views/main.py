@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, request
 from app.forms.tasa import TasaForm
 from app.models.tasa import Tasa
 from app.forms.caja import CajaForm
@@ -39,11 +39,33 @@ def get_tasa():
     return render_template('main/get_tasa.html', tasa=tasa)
 
 ### CAJA
+def get_total():
+    caja = Caja.query.order_by(Caja.id.desc()).first()
+    total_local = 0
+    total_local += caja.moneda_local_1
+    total_local += caja.moneda_local_5 * 5
+    total_local += caja.moneda_local_10 * 10
+    total_local += caja.moneda_local_20 * 20
+    total_local += caja.moneda_local_50 * 50
+    total_local += caja.moneda_local_100 * 100
+    total_local += caja.moneda_local_200 * 200
+    total_local += caja.moneda_local_500 * 500
+    total_local += caja.moneda_local_1000 * 1000
+    total_dolar = 0
+    total_dolar += caja.dolar_1
+    total_dolar += caja.dolar_5 * 5
+    total_dolar += caja.dolar_10 * 10
+    total_dolar += caja.dolar_20 * 20
+    total_dolar += caja.dolar_50 * 50
+    total_dolar += caja.dolar_100 * 100
+    return {'total_local': total_local, 'total_dolar': total_dolar}
+
 # Caja SET
 @main.route('/caja/get')
 def get_caja():
     caja = Caja.query.order_by(Caja.id.desc()).first()
-    return render_template('main/get_caja.html', caja=caja)
+    total = get_total()
+    return render_template('main/get_caja.html', caja=caja, total=total)
 
 # Caja GET
 @main.route('/caja/set', methods=['GET', 'POST'])
@@ -74,10 +96,41 @@ def set_caja():
 
 
 # Operaciones Western Union
-@main.route('/operaciones_wu')
+@main.route('/wu/operaciones_wu',methods=['GET','POST'])
 def operaciones_wu():
-    form = OpWuForm()
-    if form.validate_on_submit():
-        pass
-    return render_template('main/operaciones_wu.html', form = form, ultima_tasa = Tasa.query.order_by(Tasa.id.desc()).first())
 
+    form = OpWuForm()
+
+    if request.method == 'POST':
+        #get data from form
+        tipo_operacion = request.form['tipo_operacion']
+        codigo_mtcn = request.form['codigo_mtcn']
+        transaccion = request.form['transaccion']
+        montotrus = float(request.form['montotrus'])
+        montopus = float(request.form['montopus'])
+        montotrcs = float(request.form['montotrcs'])
+        montopcs = float(request.form['montopcs'])   
+
+        #save data in table 
+        nueva_operacion = OpWu(
+            transaccion=transaccion,
+            codigo_mtcn=codigo_mtcn,
+            tipo_operacion=tipo_operacion,
+            montotrus=montotrus,
+            montopus=montopus,
+            montotrcs=montotrcs,
+            montopcs=montopcs
+        )
+
+        db.session.add(nueva_operacion)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+    else:
+        return render_template('main/operaciones_wu.html', form = form, ultima_tasa = Tasa.query.order_by(Tasa.id.desc()).first())
+
+# Historial de Operaciones Western Union
+@main.route('/wu/historial')
+def historial_wu():
+    historial = OpWu.query.all()
+    return render_template('main/historial_wu.html', historial=historial)

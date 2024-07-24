@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+
+{%block title%}Historial WU{%endblock%}
+
+{%block content%}
+
+<div class="container text-center">
+    <h1 class="display-3">Historial WU</h1>
+    <hr>
+</div>
+
+<div class="container">
+    <div class="container mt-5">
+        <h2 class="mb-4">Registro Operaciones WU</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo Operación</th>
+                    <th>Código MTCN</th>
+                    <th>Transacción</th>
+                    <th>Monto TR US</th>
+                    <th>Monto P US</th>
+                    <th>Monto TR CS</th>
+                    <th>Monto P CS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in historial %}
+                <tr>
+                    <td>{{ record.id }}</td>
+                    <td>{{ record.tipo_operacion }}</td>
+                    <td>{{ record.codigo_mtcn }}</td>
+                    <td>{{ record.transaccion }}</td>
+                    <td>{{ record.montotrus }}</td>
+                    <td>{{ record.montopus }}</td>
+                    <td>{{ record.montotrcs }}</td>
+                    <td>{{ record.montopcs }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{%endblock%}

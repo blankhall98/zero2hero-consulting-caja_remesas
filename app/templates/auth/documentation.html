@@ -1,58 +1,82 @@
-{%extends 'base.html'%}
-{%block title%}Documentation{%endblock%}
-{%block content%}
+{% extends 'base.html' %}
+{% block title %}Documentation{% endblock %}
+{% block content %}
 
-<div class="conatiner">
-    <h1>Documentation</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Documentation</h1>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="text-primary">Tasas</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <b>Fijar Tasa</b> - /tasa/set - <a href="{{ url_for('main.set_tasa') }}" class="btn btn-sm btn-outline-primary">Action</a>
+                </li>
+                <li class="list-group-item">
+                    <b>Obtener Tasa</b> - /tasa/get - <a href="{{ url_for('main.get_tasa') }}" class="btn btn-sm btn-outline-primary">Action</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="text-primary">Operaciones</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <b>Wester Union</b>
+                    <ul class="list-unstyled">
+                        <li class="mt-2"><b>Operaciones Wester Union</b> - /wu/operaciones_wu - <a href="{{ url_for('main.operaciones_wu') }}" class="btn btn-sm btn-outline-secondary">Action</a></li>
+                        <li class="mt-2"><b>Historial de Operaciones Wester Union</b> - /wu/historial - <a href="{{ url_for('main.historial_wu') }}" class="btn btn-sm btn-outline-secondary">Action</a></li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Registro de Retiro</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="text-primary">Contabilidad</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <b>Cuenta de Caja</b>
+                    <ul class="list-unstyled">
+                        <li class="mt-2"><b>Visualizar Caja</b> - /caja/get - <a href="{{ url_for('main.get_caja') }}" class="btn btn-sm btn-outline-secondary">Action</a></li>
+                        <li class="mt-2"><b>Modificar Caja</b> - /caja/set - <a href="{{ url_for('main.set_caja') }}" class="btn btn-sm btn-outline-secondary">Action</a></li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Cuenta por cobrar a WU</li>
+                <li class="list-group-item">Cuenta por pagar a WU</li>
+                <li class="list-group-item">Diferencial Contable</li>
+                <li class="list-group-item">Sobrante de Caja</li>
+                <li class="list-group-item">Faltante de Caja</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="text-primary">Auth</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Login</li>
+                <li class="list-group-item">Sign Up</li>
+                <li class="list-group-item">Permisos</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="text-primary">Admin</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Delete User</li>
+                <li class="list-group-item">Modificar Permisos</li>
+                <li class="list-group-item">Pausar Aplicación</li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 
-<div class="container">
-    <div class="container">
-        <h3>Tasas</h3>
-        <ul>
-            <li><b>Fijar Tasa</b> - /tasa/set - <a href="{{url_for('main.set_tasa')}}">action</a></li>
-            <li><b>Obtener Tasa</b> - /tasa/get - <a href="{{url_for('main.get_tasa')}}">action</a></li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <h3>Registros</h3>
-        <ul>
-            <li>Registro de Pago</li>
-            <li>Registro de Retiro</li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <h3>Contabilidad</h3>
-        <ul>
-            <li>Cuenta de Caja</li>
-            <li>Cuenta por cobrar a WU</li>
-            <li>Cuenta por pagar a WU</li>
-            <li>Diferencial Contable</li>
-            <li>Sobrante de Caja</li>
-            <li>Faltante de Caja</li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <h3>Auth</h3>
-        <ul>
-            <li>login</li>
-            <li>sign up</li>
-            <li>permisos</li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <h3>Admin</h3>
-        <ul>
-            <li>Delete User</li>
-            <li>Modificar Permisos</li>
-            <li>Pausar Aplicación</li>
-        </ul>
-    </div>
-
-</div>
-
-{%endblock%}
+{% endblock %}
