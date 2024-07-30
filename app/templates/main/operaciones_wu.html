@@ -1,57 +1,63 @@
 {% extends 'base.html' %}
 {% block title %}Operaciones Airpak{% endblock %}
 {% block content %}
+
 <div class="container mb-5" id="content_operaciones_wu">
+    <div class="container text-center">
+        <h1 class="display-3 mb-4">Operaciones Airpak</h1>
+    </div>
     <div class="container my-5">
         <div class="border-top my-3"></div>
         {% if ultima_tasa %}
         <div class="row">
             <h1 class="display-6">Tasas de Cambio</h1>
-            <div class="col"><p>Fecha: {{ ultima_tasa.fecha.strftime('%d/%m/%Y') }}</p></div>
-            <div class="col"><p>Tasa Oficial: {{ ultima_tasa.tasa_oficial }}</p></div>
-            <div class="col"><p>Tasa Compra: {{ ultima_tasa.tasa_compra }}</p></div>
-            <div class="col"><p>Tasa Venta: {{ ultima_tasa.tasa_venta }}</p></div>
-            <div class="col"><p>Tasa WU: {{ ultima_tasa.tasa_wu }}</p></div>
+            <div class="col-md-3"><p><strong>Fecha:</strong> {{ ultima_tasa.fecha.strftime('%d/%m/%Y') }}</p></div>
+            <div class="col-md-3"><p><strong>Tasa Oficial:</strong> {{ ultima_tasa.tasa_oficial }}</p></div>
+            <div class="col-md-2"><p><strong>Tasa Compra:</strong> {{ ultima_tasa.tasa_compra }}</p></div>
+            <div class="col-md-2"><p><strong>Tasa Venta:</strong> {{ ultima_tasa.tasa_venta }}</p></div>
+            <div class="col-md-2"><p><strong>Tasa WU:</strong> {{ ultima_tasa.tasa_wu }}</p></div>
         </div>
         {% endif %}
         <hr>
     </div>
 
-    <div class="container p-3 bg-light" style="border-radius: 10px;">
-        <h1 class="display-1">Operaciones Airpak</h1>
-        <hr>
-        <form id="OpWuForm" action="{{ url_for('main.operaciones_wu') }}" method="post" class="d-flex flex-column">
+    <div class="container p-4 bg-light rounded shadow-sm">
+        <form id="OpWuForm" action="{{ url_for('main.operaciones_wu') }}" method="post">
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-                <label for="tipo_operacion">Tipo de operacion</label>
+                <label for="tipo_operacion" class="font-weight-bold">Tipo de Operación</label>
                 <select class="form-control" id="tipo_operacion" name="tipo_operacion">
-                    <option value="egreso">egreso</option>
-                    <option value="ingreso">ingreso</option>
+                    <option value="egreso">Egreso</option>
+                    <option value="ingreso">Ingreso</option>
                 </select>
+            </div>
 
-                <label for="codigo_mtcn">Codigo MTCN</label>
-                <input type="text" class="form-control" id="codigo_mtcn" name="codigo_mtcn" placeholder="Codigo MTCN">
+            <div class="form-group">
+                <label for="codigo_mtcn" class="font-weight-bold">Código MTCN</label>
+                <input type="text" class="form-control" id="codigo_mtcn" name="codigo_mtcn" placeholder="Código MTCN">
+            </div>
 
-                <label for="transaccion">Transaccion Contable</label>
+            <div class="form-group">
+                <label for="transaccion" class="font-weight-bold">Transacción Contable</label>
                 <select class="form-control" id="transaccion" name="transaccion">
                     <option value="pago_remesa_wu_us">Pago de Remesa WU US</option>
                     <option value="pago_remesa_wu_cs">Pago de Remesa WU CS</option>
-                    <option value="envio_remesa_wu_us">Envio de Remesa WU US</option>
-                    <option value="envio_remesa_wu_cs">Envio de Remesa WU CS</option>
+                    <option value="envio_remesa_wu_us">Envío de Remesa WU US</option>
+                    <option value="envio_remesa_wu_cs">Envío de Remesa WU CS</option>
                 </select>
             </div>
 
-            <h3>Monto Transaccionado US</h3>
+            <h3 class="mt-4">Monto Transaccionado US</h3>
             <div class="form-group">
-                <input type="number" class="form-control" id="montotrus" name="montotrus" placeholder="Monto de la Transaccion Dolares" step="any">
-                <input type="number" class="form-control" id="montopus" name="montopus" placeholder="Monto Pago en Dolares" step="any">
+                <input type="number" class="form-control mb-2" id="montotrus" name="montotrus" placeholder="Monto de la Transacción en Dólares" step="any">
+                <input type="number" class="form-control" id="montopus" name="montopus" placeholder="Monto Pago en Dólares" step="any">
             </div>
 
-            <h3>Monto Transaccionado CS</h3>
+            <h3 class="mt-4">Monto Transaccionado CS</h3>
             <div class="form-group">
-                <input type="number" id="montotrcs" name="montotrcs" class="form-control" placeholder="Monto de la Transaccion en Cordobas">
-                <input type="number" id="montopcs" name="montopcs" class="form-control" placeholder="Monto a pagar en Cordobas" step="any">
+                <input type="number" id="montotrcs" name="montotrcs" class="form-control mb-2" placeholder="Monto de la Transacción en Córdobas">
+                <input type="number" id="montopcs" name="montopcs" class="form-control" placeholder="Monto a pagar en Córdobas" step="any">
                 <input type="hidden" id="montopcs_hidden" name="montopcs_hidden">
             </div>
 
@@ -60,9 +66,8 @@
             <div class="container">
                 <h4>Detalles de Monedas</h4>
                 <div class="row">
-                    <!-- Entradas CS -->
-                    <div class="col">
-                        <h4>Entradas CS</h4>
+                    <div class="col-md-6">
+                        <h5>Entradas CS</h5>
                         {% for denomination in [1000, 500, 200, 100, 50, 20, 10, 5, 1] %}
                         <div class="form-group row">
                             <label for="montoi_{{ denomination }}_CS" class="col-sm-4 col-form-label">{{ denomination }}_CS</label>
@@ -87,9 +92,8 @@
                         </div>
                     </div>
 
-                    <!-- Salidas CS -->
-                    <div class="col">
-                        <h4>Salidas CS</h4>
+                    <div class="col-md-6">
+                        <h5>Salidas CS</h5>
                         {% for denomination in [1000, 500, 200, 100, 50, 20, 10, 5, 1] %}
                         <div class="form-group row">
                             <label for="montos_{{ denomination }}_CS" class="col-sm-4 col-form-label">{{ denomination }}_CS</label>
@@ -111,22 +115,19 @@
                                 <input type="number" id="ajuste_CS" name="ajuste_CS" step="any" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="total-operacion" class="col-sm-4 col-form-label">Total Operación</label>
-                            <div class="col-sm-8">
-                                <input type="number" id="total-operacion" name="total-operacion" class="form-control" disabled>
-                            </div>
-                        </div>
                     </div>
+                </div>
+                
+                <hr>
 
-                    <!-- Entradas US -->
-                    <div class="col">
-                        <h4>Entradas US</h4>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5>Entradas US</h5>
                         {% for denomination in [100, 50, 20, 10, 5, 1] %}
                         <div class="form-group row">
-                            <label for="montoE_{{ denomination }}_US" class="col-sm-4 col-form-label">{{ denomination }}_US</label>
+                            <label for="montoi_{{ denomination }}_US" class="col-sm-4 col-form-label">{{ denomination }}_US</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="montoE_{{ denomination }}_US" name="montoE_{{ denomination }}_US" value="0">
+                                <input type="text" class="form-control" id="montoi_{{ denomination }}_US" name="montoi_{{ denomination }}_US" value="0">
                             </div>
                         </div>
                         {% endfor %}
@@ -138,22 +139,21 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="cambioE_US" class="col-sm-4 col-form-label">CambioE US</label>
+                            <label for="cambioi_US" class="col-sm-4 col-form-label">Cambio US</label>
                             <div class="col-sm-8">
-                                <input type="hidden" id="cambioE_US" name="cambioE_US">
-                                <input type="text" class="form-control" id="cambioE_US_display" disabled>
+                                <input type="hidden" id="cambioi_US" name="cambioi_US">
+                                <input type="text" class="form-control" id="cambioi_US_display" disabled>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Salidas US -->
-                    <div class="col">
-                        <h4>Salidas US</h4>
+                    <div class="col-md-6">
+                        <h5>Salidas US</h5>
                         {% for denomination in [100, 50, 20, 10, 5, 1] %}
                         <div class="form-group row">
-                            <label for="montoP_{{ denomination }}_US" class="col-sm-4 col-form-label">{{ denomination }}_US</label>
+                            <label for="montos_{{ denomination }}_US" class="col-sm-4 col-form-label">{{ denomination }}_US</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="montoP_{{ denomination }}_US" name="montoP_{{ denomination }}_US" value="0">
+                                <input type="text" class="form-control" id="montos_{{ denomination }}_US" name="montos_{{ denomination }}_US" value="0">
                             </div>
                         </div>
                         {% endfor %}
@@ -170,18 +170,14 @@
                                 <input type="number" id="ajuste_US" name="ajuste_US" step="any" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="total-operacion_us" class="col-sm-4 col-form-label">Total Operación US</label>
-                            <div class="col-sm-8">
-                                <input type="number" id="total-operacion_us" name="total-operacion_us" class="form-control" disabled>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="border-top my-3"></div>
-            <input type="submit" value="Guardar" class="btn btn-primary">
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary btn-lg mt-3">
+            </div>
         </form>
     </div>
 </div>
@@ -197,119 +193,104 @@
         const montoCsEl = document.getElementById('montopcs');
         const montoCsHiddenEl = document.getElementById('montopcs_hidden');
         const ajusteCSEl = document.getElementById('ajuste_CS');
-        const totalOperacionEl = document.getElementById('total-operacion');
+        const ajusteUSEl = document.getElementById('ajuste_US');
+        const totalEntradasUSEl = document.getElementById('total_entradas_US_display');
+        const totalEntradasUSElHidden = document.getElementById('total_entradas_US');
+        const cambioUSEl = document.getElementById('cambioi_US_display');
+        const cambioUSElHidden = document.getElementById('cambioi_US');
 
         function calcularYActualizarMonto() {
             const montoTrUs = parseFloat(montoTrUsEl.value) || 0;
             const montoUs = parseFloat(montoUsEl.value) || 0;
-            const montoTrCs = parseFloat(montoTrCsEl.value) || 0;
             const tipoOperacion = tipoOperacionEl.value;
-            const diferencia = montoTrUs - montoUs;
+            const tasaAplicable = tipoOperacion === 'ingreso' ? tasaVenta : tasaCompra;
+            const montoCs = (montoTrUs - montoUs) * tasaAplicable;
 
-            if (diferencia < 0) {
-                montoCsEl.value = '0';
-                montoCsHiddenEl.value = '0';
-                return;
-            }
-
-            let montoCs = tipoOperacion === 'egreso' && diferencia < 0 ? Math.abs(diferencia) * tasaVenta : diferencia * (tipoOperacion === 'ingreso' ? tasaVenta : tasaCompra);
-            montoCs += montoTrCs;
             montoCsEl.value = montoCs.toFixed(2);
             montoCsHiddenEl.value = montoCs.toFixed(2);
-            calcularCambioICS();
             calcularAjusteCS();
-            calcularCambioEUS();
             calcularAjusteUS();
+            calcularTotalEntradasUS();
+        }
+
+        function calcularAjusteCS() {
+            const totalEntradasCS = calcularTotal('montoi_', '_CS');
+            const totalSalidasCS = calcularTotal('montos_', '_CS');
+            const montoPCS = parseFloat(montoCsEl.value) || 0;
+            const tipoOperacion = tipoOperacionEl.value;
+
+            const ajusteCS = tipoOperacion === 'ingreso' ? totalEntradasCS - montoPCS - totalSalidasCS : totalSalidasCS - montoPCS - totalEntradasCS;
+
+            ajusteCSEl.value = ajusteCS.toFixed(2);
+        }
+
+        function calcularAjusteUS() {
+            const totalEntradasUS = calcularTotal('montoi_', '_US');
+            const totalSalidasUS = calcularTotal('montos_', '_US');
+            const montoPUS = parseFloat(montoUsEl.value) || 0;
+            const tipoOperacion = tipoOperacionEl.value;
+
+            const ajusteUS = tipoOperacion === 'ingreso' ? totalEntradasUS - montoPUS - totalSalidasUS : totalSalidasUS - montoPUS - totalEntradasUS;
+
+            ajusteUSEl.value = ajusteUS.toFixed(2);
+        }
+
+        function calcularTotal(prefix, suffix) {
+            let total = 0;
+            const denominations = suffix.includes('CS') ? [1000, 500, 200, 100, 50, 20, 10, 5, 1] : [100, 50, 20, 10, 5, 1];
+            denominations.forEach(denom => {
+                total += denom * (parseFloat(document.getElementById(`${prefix}${denom}${suffix}`).value) || 0);
+            });
+            return total;
+        }
+
+        function calcularTotalEntradasUS() {
+            const totalEntradasUS = calcularTotal('montoi_', '_US');
+            totalEntradasUSEl.value = totalEntradasUS.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            totalEntradasUSElHidden.value = totalEntradasUS;
+            calcularCambioUS(totalEntradasUS);
+        }
+
+        function calcularCambioUS(totalEntradasUS) {
+            const totalSalidasUS = calcularTotal('montos_', '_US');
+            const tipoOperacion = tipoOperacionEl.value;
+            const montoPUS = parseFloat(montoUsEl.value) || 0;
+            const cambioUS = tipoOperacion === 'ingreso' ? montoPUS - totalEntradasUS + totalSalidasUS : montoPUS - totalSalidasUS + totalEntradasUS;
+
+            cambioUSEl.value = cambioUS.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            cambioUSElHidden.value = cambioUS;
         }
 
         montoTrUsEl.addEventListener('input', calcularYActualizarMonto);
         montoUsEl.addEventListener('input', calcularYActualizarMonto);
-        montoTrCsEl.addEventListener('input', calcularYActualizarMonto);
         tipoOperacionEl.addEventListener('change', calcularYActualizarMonto);
-        ajusteCSEl.addEventListener('input', calcularAjusteCS);
-
-        function calcularTotalEntradasCS() {
-            let total = 0;
-            [1000, 500, 200, 100, 50, 20, 10, 5, 1].forEach(denom => {
-                total += denom * (parseFloat(document.getElementById(`montoi_${denom}_CS`).value) || 0);
-            });
-            document.getElementById('total_entradas_CS').value = total;
-            document.getElementById('total_entradas_CS_display').value = total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            calcularCambioICS();
+        document.querySelectorAll('[id^="montoi_"], [id^="montos_"]').forEach(el => el.addEventListener('input', function() {
             calcularAjusteCS();
-            calcularCambioEUS();
             calcularAjusteUS();
-        }
-
-        function calcularTotalSalidasCS() {
-            let total = 0;
-            [1000, 500, 200, 100, 50, 20, 10, 5, 1].forEach(denom => {
-                total += denom * (parseFloat(document.getElementById(`montos_${denom}_CS`).value) || 0);
-            });
-            document.getElementById('total_salidas_CS').value = total;
-            document.getElementById('total_salidas_CS_display').value = total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            calcularCambioICS();
-            calcularAjusteCS();
-            calcularCambioEUS();
-            calcularAjusteUS();
-        }
-
-        function calcularCambioICS() {
-            const totalEntradasCS = parseFloat(document.getElementById('total_entradas_CS').value) || 0;
-            const totalSalidasCS = parseFloat(document.getElementById('total_salidas_CS').value) || 0;
-            const montoPCS = parseFloat(document.getElementById('montopcs').value) || 0;
-            const tipoOperacion = document.getElementById('tipo_operacion').value;
-
-            const cambioICS = tipoOperacion === 'ingreso' ? montoPCS - totalEntradasCS + totalSalidasCS : montoPCS - totalSalidasCS + totalEntradasCS;
-
-            document.getElementById('cambioi_CS_display').value = cambioICS.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('cambioi_CS').value = cambioICS;
-        }
-
-        function calcularAjusteCS() {
-            const totalEntradasCS = parseFloat(document.getElementById('total_entradas_CS').value) || 0;
-            const totalSalidasCS = parseFloat(document.getElementById('total_salidas_CS').value) || 0;
-            const montoPCS = parseFloat(document.getElementById('montopcs').value) || 0;
-            const tipoOperacion = document.getElementById('tipo_operacion').value;
-
-            const ajusteCS = tipoOperacion === 'ingreso' ? totalEntradasCS - montoPCS - totalSalidasCS : totalSalidasCS - montoPCS - totalEntradasCS;
-
-            document.getElementById('ajuste_CS').value = ajusteCS;
-            calcularTotalOperacion();
-            calcularCambioEUS();
-            calcularAjusteUS();
-        }
-
-        function calcularTotalOperacion() {
-            const montoPCS = parseFloat(document.getElementById('montopcs').value) || 0;
-            const ajusteCS = parseFloat(document.getElementById('ajuste_CS').value) || 0;
-            const totalOperacion = montoPCS + ajusteCS;
-            document.getElementById('total-operacion').value = totalOperacion.toFixed(2);
-        }
-
-        document.querySelectorAll('#montoi_1000_CS, #montoi_500_CS, #montoi_200_CS, #montoi_100_CS, #montoi_50_CS, #montoi_20_CS, #montoi_10_CS, #montoi_5_CS, #montoi_1_CS').forEach(el => el.addEventListener('input', calcularTotalEntradasCS));
-        document.querySelectorAll('#montos_1000_CS, #montos_500_CS, #montos_200_CS, #montos_100_CS, #montos_50_CS, #montos_20_CS, #montos_10_CS, #montos_5_CS, #montos_1_CS').forEach(el => el.addEventListener('input', calcularTotalSalidasCS));
+            calcularTotalEntradasUS();
+        }));
 
         function validarFormulario(event) {
-            const ajusteCS = parseFloat(document.getElementById('ajuste_CS').value) || 0;
-            if (ajusteCS > 5 || ajusteCS < -5) {
+            const ajusteCS = parseFloat(ajusteCSEl.value) || 0;
+            const ajusteUS = parseFloat(ajusteUSEl.value) || 0;
+
+            if (ajusteCS > 5 || ajusteCS < -5 || ajusteUS > 5 || ajusteUS < -5) {
                 alert("El valor del ajuste no debe ser mayor ni menor que 5, favor revisar detalle de moneda");
                 event.preventDefault();
-                return;
             }
 
-            const montotrus = document.getElementById('montotrus').value;
-            const montopus = document.getElementById('montopus').value;
-            if (montotrus === "" || montopus === "") {
-                alert("El campo 'Monto de la Transacción Dólares' y 'Monto Pago en Dólares' no pueden estar vacíos");
+            if (!montoTrUsEl.value || !montoUsEl.value) {
+                alert("Los campos 'Monto de la Transacción Dólares' y 'Monto Pago en Dólares' no pueden estar vacíos");
                 event.preventDefault();
             }
         }
 
         document.getElementById('OpWuForm').addEventListener('submit', validarFormulario);
-        calcularTotalEntradasCS();
-        calcularTotalSalidasCS();
+        calcularYActualizarMonto();
     });
 </script>
 
 {% endblock %}
+
+
+

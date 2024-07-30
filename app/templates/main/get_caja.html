@@ -5,7 +5,7 @@
 {%block content%}
 
 <div class="container text-center mt-5">
-    <h1 class="mb-4">Estado de la Caja</h1>
+    <h1 class="mb-4 display-3">Estado de la Caja</h1>
     <hr>
 </div>
 
@@ -14,49 +14,61 @@
 </div>
 
 <div class="container mt-5">
-    {% if caja %}
     <div class="container">
         <div class="container">
-            <h2 class="card-title">Última Entrada - {{ caja.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</h2>
+            <h2 class="card-title display-6">Última Entrada - {{ caja.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</h2>
             <hr>
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h4><b>Córdobas</b></h4>
-                    <p>Total: {{total['total_local']}}</p>
-                    <ul class="list-group">
-                        <li class="list-group-item">1: {{ caja.moneda_local_1 }}</li>
-                        <li class="list-group-item">5: {{ caja.moneda_local_5 }}</li>
-                        <li class="list-group-item">10: {{ caja.moneda_local_10 }}</li>
-                        <li class="list-group-item">20: {{ caja.moneda_local_20 }}</li>
-                        <li class="list-group-item">50: {{ caja.moneda_local_50 }}</li>
-                        <li class="list-group-item">100: {{ caja.moneda_local_100 }}</li>
-                        <li class="list-group-item">200: {{ caja.moneda_local_200 }}</li>
-                        <li class="list-group-item">500: {{ caja.moneda_local_500 }}</li>
-                        <li class="list-group-item">1000: {{ caja.moneda_local_1000 }}</li>
-                    </ul>
+                <div class="col-md-6 table-container">
+                    <h2 class="display-5">Moneda Local</h2>
+                    <p class="text-primary">Total: {{total_local}} Córdoba</p>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Denominación</th>
+                                <th>Cantidad</th>
+                                <th>Cantidad Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in moneda_local_data %}
+                            <tr>
+                                <td>{{ item.value }}</td>
+                                <td>{{ item.amount }}</td>
+                                <td>{{ item.accumulated }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-md-6">
-                    <h4 class="mt-4"><b>Dólares</b></h4>
-                    <p>Total: {{total['total_dolar']}}</p>
-                    <ul class="list-group">
-                        <li class="list-group-item">1: {{ caja.dolar_1 }}</li>
-                        <li class="list-group-item">5: {{ caja.dolar_5 }}</li>
-                        <li class="list-group-item">10: {{ caja.dolar_10 }}</li>
-                        <li class="list-group-item">20: {{ caja.dolar_20 }}</li>
-                        <li class="list-group-item">50: {{ caja.dolar_50 }}</li>
-                        <li class="list-group-item">100: {{ caja.dolar_100 }}</li>
-                    </ul>
+                <div class="col-md-6 table-container">
+                    <h2 class="display-5">Dolar</h2>
+                    <p class="text-primary">Total: {{total_dolar}} Dólar</p>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Denominación</th>
+                                <th>Cantidad</th>
+                                <th>Cantidad Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in dolar_data %}
+                            <tr>
+                                <td>{{ item.value }}</td>
+                                <td>{{ item.amount }}</td>
+                                <td>{{ item.accumulated }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        
     </div>
-    {% else %}
-    <div class="alert alert-warning" role="alert">
-        No hay entradas en la caja.
-    </div>
-    {% endif %}
 </div>
 
 {%endblock%}

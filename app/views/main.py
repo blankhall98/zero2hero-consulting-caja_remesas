@@ -63,9 +63,71 @@ def get_total():
 # Caja SET
 @main.route('/caja/get')
 def get_caja():
+    # Query the database for all records
     caja = Caja.query.order_by(Caja.id.desc()).first()
+    
+    # Organize the data by type and calculate accumulated amounts
+    moneda_local_data = []
+    dolar_data = []
+    
+    if caja:
+            moneda_local_data.append({'value': 1, 'amount': caja.moneda_local_1, 'accumulated': caja.moneda_local_1 * 1})
+            moneda_local_data.append({'value': 5, 'amount': caja.moneda_local_5, 'accumulated': caja.moneda_local_5 * 5})
+            moneda_local_data.append({'value': 10, 'amount': caja.moneda_local_10, 'accumulated': caja.moneda_local_10 * 10})
+            moneda_local_data.append({'value': 20, 'amount': caja.moneda_local_20, 'accumulated': caja.moneda_local_20 * 20})
+            moneda_local_data.append({'value': 50, 'amount': caja.moneda_local_50, 'accumulated': caja.moneda_local_50 * 50})
+            moneda_local_data.append({'value': 100, 'amount': caja.moneda_local_100, 'accumulated': caja.moneda_local_100 * 100})
+            moneda_local_data.append({'value': 200, 'amount': caja.moneda_local_200, 'accumulated': caja.moneda_local_200 * 200})
+            moneda_local_data.append({'value': 500, 'amount': caja.moneda_local_500, 'accumulated': caja.moneda_local_500 * 500})
+            moneda_local_data.append({'value': 1000, 'amount': caja.moneda_local_1000, 'accumulated': caja.moneda_local_1000 * 1000})
+            
+            dolar_data.append({'value': 1, 'amount': caja.dolar_1, 'accumulated': caja.dolar_1 * 1})
+            dolar_data.append({'value': 5, 'amount': caja.dolar_5, 'accumulated': caja.dolar_5 * 5})
+            dolar_data.append({'value': 10, 'amount': caja.dolar_10, 'accumulated': caja.dolar_10 * 10})
+            dolar_data.append({'value': 20, 'amount': caja.dolar_20, 'accumulated': caja.dolar_20 * 20})
+            dolar_data.append({'value': 50, 'amount': caja.dolar_50, 'accumulated': caja.dolar_50 * 50})
+            dolar_data.append({'value': 100, 'amount': caja.dolar_100, 'accumulated': caja.dolar_100 * 100})
+    else:
+        moneda_local_data = [{'value': 1, 'amount': 0, 'accumulated': 0},
+                             {'value': 5, 'amount': 0, 'accumulated': 0},
+                             {'value': 10, 'amount': 0, 'accumulated': 0},
+                             {'value': 20, 'amount': 0, 'accumulated': 0},
+                             {'value': 50, 'amount': 0, 'accumulated': 0},
+                             {'value': 100, 'amount': 0, 'accumulated': 0},
+                             {'value': 200, 'amount': 0, 'accumulated': 0},
+                             {'value': 500, 'amount': 0, 'accumulated': 0},
+                             {'value': 1000, 'amount': 0, 'accumulated': 0}]
+        dolar_data = [{'value': 1, 'amount': 0, 'accumulated': 0},
+                      {'value': 5, 'amount': 0, 'accumulated': 0},
+                      {'value': 10, 'amount': 0, 'accumulated': 0},
+                      {'value': 20, 'amount': 0, 'accumulated': 0},
+                      {'value': 50, 'amount': 0, 'accumulated': 0},
+                      {'value': 100, 'amount': 0, 'accumulated': 0}]
+    def get_total():
+        caja = Caja.query.order_by(Caja.id.desc()).first()
+        total_local = 0
+        total_local += caja.moneda_local_1
+        total_local += caja.moneda_local_5 * 5
+        total_local += caja.moneda_local_10 * 10
+        total_local += caja.moneda_local_20 * 20
+        total_local += caja.moneda_local_50 * 50
+        total_local += caja.moneda_local_100 * 100
+        total_local += caja.moneda_local_200 * 200
+        total_local += caja.moneda_local_500 * 500
+        total_local += caja.moneda_local_1000 * 1000
+        total_dolar = 0
+        total_dolar += caja.dolar_1
+        total_dolar += caja.dolar_5 * 5
+        total_dolar += caja.dolar_10 * 10
+        total_dolar += caja.dolar_20 * 20
+        total_dolar += caja.dolar_50 * 50
+        total_dolar += caja.dolar_100 * 100
+        return {'total_local': total_local, 'total_dolar': total_dolar}
+    
     total = get_total()
-    return render_template('main/get_caja.html', caja=caja, total=total)
+    
+    # Render the HTML template with the data
+    return render_template('main/get_caja.html', moneda_local_data=moneda_local_data, dolar_data=dolar_data, total_local= total['total_local'] , total_dolar = total['total_dolar'] ,caja=caja)
 
 # Caja GET
 @main.route('/caja/set', methods=['GET', 'POST'])
