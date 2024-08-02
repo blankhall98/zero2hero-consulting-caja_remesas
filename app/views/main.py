@@ -6,6 +6,7 @@ from app.models.caja import Caja
 from app.forms.opwu import OpWuForm
 from app.models.opwu import OpWu
 from app.extensions import db
+from app.extensions import alterar_caja, transaction_balance, get_transaction_values
 
 main = Blueprint('main', __name__)
 
@@ -172,6 +173,13 @@ def operaciones_wu():
         montopus = float(request.form['montopus'])
         montotrcs = float(request.form['montotrcs'])
         montopcs = float(request.form['montopcs'])   
+
+        #get total
+        values = get_transaction_values()
+        #get balance
+        balance = transaction_balance(values)
+        #alter caja
+        alterar_caja(Caja,balance)
 
         #save data in table 
         nueva_operacion = OpWu(

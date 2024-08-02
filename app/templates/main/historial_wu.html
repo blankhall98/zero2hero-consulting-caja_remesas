@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Fecha</th>
                     <th>Tipo Operación</th>
                     <th>Código MTCN</th>
                     <th>Transacción</th>
@@ -29,6 +30,7 @@
                 {% for record in historial %}
                 <tr>
                     <td>{{ record.id }}</td>
+                    <td>{{ record.fecha }}</td>
                     <td>{{ record.tipo_operacion }}</td>
                     <td>{{ record.codigo_mtcn }}</td>
                     <td>{{ record.transaccion }}</td>
